@@ -1,0 +1,114 @@
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4
+set t_Co=256
+set nocompatible
+set number
+set list
+set rnu
+let python_highlight_all = 1 " enable all Python syntax highlighting features
+autocmd FileType python,sh,ruby  setlocal colorcolumn=80 "color column 80
+set cursorline " show a visual line under the cursor's current line
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'matze/vim-move'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sensible'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'klen/python-mode'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'vimwiki/vimwiki'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'tpope/vim-surround'
+Plugin 'zenbro/mirror.vim'
+Plugin 'Yggdroot/indentLine'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'ZoomWin'
+Plugin 'prettier/vim-prettier'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'mattn/emmet-vim'
+Plugin 'junegunn/fzf.vim'
+Plugin 'muansari96/vimify'
+
+"Plugin 'wincent/terminus'
+"Plugin 'easymotion/vim-easymotion'
+"Plugin 'AndrewRadev/sideways.vim'
+Plugin 'fatih/vim-go'
+Plugin 'scrooloose/nerdcommenter'
+"Plugin 'jmcantrell/vim-virtualenv'
+"Plugin 'powerline/fonts'
+"Plugin 'airblade/vim-gitgutter'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Shougo/vimproc.git'
+"Plugin 'ngmy/vim-rubocop'
+"Plugin 'gcmt/taboo.vim'
+"Plugin 'xuyuanp/nerdtree-git-plugin'
+"Plugin 'mhinz/vim-startify'
+Plugin 'majutsushi/tagbar'
+"Plugin 'malithsen/trello-vim'
+"Plugin 'vim-pandoc/vim-pandoc'
+"Plugin 'vim-pandoc/vim-pandoc-syntax'
+"Plugin 'dougireton/vim-chef'
+
+call vundle#end()            " required
+filetype plugin indent on
+set background=dark
+set modifiable
+set noshowmode
+set tags=~/src/mytags
+"set nofoldenable    " disable folding
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set sessionoptions+=tabpages,globals
+set re=1
+set fillchars+=vert:\| 
+
+colorscheme solarized
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_wq = 0
+au CompleteDone * pclose "close python help after selection
+let g:ctrlp_map = ',/'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_by_filename = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#taboo#enabled = 1
+let g:taboo_tabline = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:autotagTagsFile="~/.tags"
+let pymode_lint = 1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
+let g:move_key_modifier = 'C'
+let g:vimrubocop_keymap = 0
+
+map <esc>t :NERDTreeToggle<CR>
+map <C-n> :bnext<CR>
+map <C-p> :bprevious<CR>
+nnoremap ,p :tabprevious<CR>
+nnoremap ,n :tabnext<CR>
+map ,t <Esc>:tabnew<CR>
+map ,/ <Esc>:CtrlPMixed<CR>
+nnoremap <C-W>M <C-W>\| <C-W>_
+nnoremap <C-W>m <C-W>=
+
+"Disable arrow keys in vim
+map <Left> <Nop>
+map <Right> <Nop>
+map <Up> <Nop>
+map <Down> <Nop>
+
+autocmd FileType ruby,eruby set filetype=ruby.eruby.chef
+autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=green ctermbg=NONE
+nmap <Leader>r :RuboCop<CR>
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=white
+
+"Nerdcommenter
+map ,cc \cs
+map ,cu \cu
+let g:go_def_mode = 'godef'
+map ./ q:?
