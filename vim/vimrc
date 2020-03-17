@@ -1,5 +1,5 @@
 "Source Plugin file
-source ~/.vim/pluginrc
+source ~/.vim_pluginrc
 
 filetype plugin indent on
 
