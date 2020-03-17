@@ -1,11 +1,11 @@
 "Source Plugin file
-source ~/.vim/.pluginrc
+source ~/.vim/pluginrc
 
 filetype plugin indent on
 
 " General vim options
-se nu               "set line number
-se rnu              "set relive line number
+set number          "set line number
+set relativenumber  "set relative line number
 set tabstop=4       "show existing tab with 4 spaces width
 set expandtab       "On pressing tab, insert 4 spaces
 set cursorline      "Highlight the line on which the cursor is at present
@@ -30,14 +30,14 @@ augroup END
 " General key remap
 
 "Use < > keys to navigate buffers
-nnoremap < :bp<CR>
-nnoremap > :bn<CR>
+nnoremap < :bpreviou<CR> 
+nnoremap > :bnext<CR>
 
 "Filetype specific settings
-autocmd FileType python,sh,vimwiki,vim  setlocal colorcolumn=80
+autocmd FileType python,sh,markdown,vim  setlocal colorcolumn=80
+autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=green ctermbg=NONE
 
 
 "Others
 colorscheme solarized
 syntax on
-

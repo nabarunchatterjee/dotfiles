@@ -1,3 +1,4 @@
+" vim: ft=vim
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -7,14 +8,27 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-sensible'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
 Plugin 'itchyny/lightline.vim'
 Plugin 'mengelbrecht/lightline-bufferline'
-Plugin 'tpope/vim-fugitive'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'vimwiki/vimwiki'
+
+"Productivity related
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-surround'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'mattn/calendar-vim'
+Plugin 'vimwiki/vimwiki'
+
+"Coding related
+Plugin 'airblade/vim-gitgutter'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'klen/python-mode'
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()            " required
 
@@ -85,6 +99,13 @@ endfunction
 set showtabline=2
 let g:lightline#bufferline#filename_modifier = ':t'
 
+"nerdcommenter plugin
+map ,cc \cs
+map ,cu \cu
+
+"nerdtree plugin
+map <esc>t :NERDTreeToggle<CR>
+
 "ctrlp Plugin
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_by_filename = 1
@@ -106,3 +127,15 @@ function! CtrlPStatusFunc_2(str)
   return lightline#statusline(0)
 endfunction
 
+
+"syntastic plugin
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_wq = 1
+
+"python-mode plugin
+au CompleteDone * pclose "close python help after selection
+let pymode_lint = 1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
+let g:pymode_rope = 1
+let g:pymode_syntax = 1
+let g:pymode_rope_goto_definition_cmd = 'e'

@@ -53,7 +53,7 @@
 
 # now_playing.sh {
 	# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine, file}.
-	export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="cmus"
+	export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER="itunes"
 	# File to be read in case the song is being read from a file
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_FILE_NAME=""
 	# Maximum output length.
