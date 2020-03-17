@@ -1,0 +1,141 @@
+" vim: ft=vim
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-sensible'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'itchyny/lightline.vim'
+Plugin 'mengelbrecht/lightline-bufferline'
+Plugin 'ryanoasis/vim-devicons'
+
+"Productivity related
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-surround'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'mattn/calendar-vim'
+Plugin 'vimwiki/vimwiki'
+
+"Coding related
+Plugin 'airblade/vim-gitgutter'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic'
+Plugin 'klen/python-mode'
+Plugin 'tpope/vim-fugitive'
+
+call vundle#end()            " required
+
+filetype plugin indent on    " required
+
+
+"NerdTree Plugin
+let g:NERDTreeNodeDelimiter = "\u00a0" "Fixes the ^G issue in front of names
+map <esc>t :NERDTreeToggle<CR>
+
+
+"Lightline Plugin
+set laststatus=2
+set noshowmode
+let g:lightline = {
+    \   'colorscheme': 'solarized',
+    \   'active': {
+    \       'left': [ [ 'mode', 'paste' ],
+    \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \      },
+    \   'tabline': {
+    \      'left': [ ['bufferline']],
+    \       },
+    \   'component_expand': {
+    \       'bufferline': 'lightline#bufferline#buffers',
+    \       },
+    \   'component_type': {
+    \       'bufferline': 'tabsel',
+    \       },
+    \   'component_function': {
+    \       'gitbranch': 'fugitive#head',
+    \       'filetype': 'MyFiletype',
+    \       'fileformat': 'MyFileformat',
+    \       'ctrlpmark': 'CtrlPMark'
+    \       },
+    \   'separator': { 'left': '', 'right': '' },
+    \   'subseparator': { 'left': '', 'right': '' },
+    \   } 
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : '') : ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+function! LightlineBufferline()
+  call bufferline#refresh_status()
+  return [ g:bufferline_status_info.before, g:bufferline_status_info.current, g:bufferline_status_info.after]
+endfunction
+
+
+function! CtrlPMark()
+  if expand('%:t') =~ 'ControlP'
+    call lightline#link('iR'[g:lightline.ctrlp_regex])
+    return g:lightline.ctrlp_prev . ' ' . g:lightline.subseparator.left . ' ' .
+        \ g:lightline.ctrlp_item . ' ' . g:lightline.subseparator.left . ' ' .
+        \ g:lightline.ctrlp_next . ' ' . g:lightline.subseparator.left . ' ' .
+        \ g:lightline.ctrlp_marked
+  else
+    return ''
+  endif
+endfunction
+
+
+"lightline-bufferline Plugin
+set showtabline=2
+let g:lightline#bufferline#filename_modifier = ':t'
+
+"nerdcommenter plugin
+map ,cc \cs
+map ,cu \cu
+
+"nerdtree plugin
+map <esc>t :NERDTreeToggle<CR>
+
+"ctrlp Plugin
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_by_filename = 1
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlPStatusFunc_1',
+  \ 'prog': 'CtrlPStatusFunc_2',
+  \ }
+
+function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_regex = a:regex
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  let g:lightline.ctrlp_marked = a:marked
+  return lightline#statusline(0)
+endfunction
+
+function! CtrlPStatusFunc_2(str)
+  return lightline#statusline(0)
+endfunction
+
+
+"syntastic plugin
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_wq = 1
+
+"python-mode plugin
+au CompleteDone * pclose "close python help after selection
+let pymode_lint = 1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
+let g:pymode_rope = 1
+let g:pymode_syntax = 1
+let g:pymode_rope_goto_definition_cmd = 'e'
