@@ -29,6 +29,8 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
 Plugin 'klen/python-mode'
 Plugin 'tpope/vim-fugitive'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 call vundle#end()            " required
 
@@ -139,3 +141,8 @@ let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
 let g:pymode_rope = 1
 let g:pymode_syntax = 1
 let g:pymode_rope_goto_definition_cmd = 'e'
+
+"utilsnips plugin
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"

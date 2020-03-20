@@ -30,7 +30,7 @@ augroup END
 " General key remap
 
 "Use < > keys to navigate buffers
-nnoremap < :bpreviou<CR> 
+nnoremap < :bprevious<CR> 
 nnoremap > :bnext<CR>
 
 "Filetype specific settings
