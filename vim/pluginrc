@@ -28,6 +28,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
 Plugin 'klen/python-mode'
+Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -89,8 +90,7 @@ function! CtrlPMark()
     call lightline#link('iR'[g:lightline.ctrlp_regex])
     return g:lightline.ctrlp_prev . ' ' . g:lightline.subseparator.left . ' ' .
         \ g:lightline.ctrlp_item . ' ' . g:lightline.subseparator.left . ' ' .
-        \ g:lightline.ctrlp_next . ' ' . g:lightline.subseparator.left . ' ' .
-        \ g:lightline.ctrlp_marked
+        \ g:lightline.ctrlp_next . ' ' . g:lightline.subseparator.left . ' ' .  \ g:lightline.ctrlp_marked
   else
     return ''
   endif
@@ -116,6 +116,12 @@ let g:ctrlp_status_func = {
   \ 'prog': 'CtrlPStatusFunc_2',
   \ }
 
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_regex = a:regex
   let g:lightline.ctrlp_prev = a:prev
@@ -132,6 +138,7 @@ endfunction
 
 "syntastic plugin
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
 "python-mode plugin
@@ -144,5 +151,18 @@ let g:pymode_rope_goto_definition_cmd = 'e'
 
 "utilsnips plugin
 let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-e>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+"vim-go plugin
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:go_term_mode = "vsplit"
+au Filetype go nnoremap <leader>r :GoRun %<CR>
+
+
+"vimwiki plugin
+"let g:vimwiki_folding = 'custom'
+
+"autopairs plugin
+"let g:AutoPairsFlyMode = 1
