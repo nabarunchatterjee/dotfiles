@@ -20,18 +20,18 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mattn/calendar-vim'
 Plugin 'vimwiki/vimwiki'
 
 "Coding related
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/syntastic'
 Plugin 'klen/python-mode'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'mattn/emmet-vim'
+Plugin 'dense-analysis/ale'
 
 call vundle#end()            " required
 
@@ -136,23 +136,22 @@ function! CtrlPStatusFunc_2(str)
 endfunction
 
 
-"syntastic plugin
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-
 "python-mode plugin
-au CompleteDone * pclose "close python help after selection
-let pymode_lint = 1
-let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
+"au CompleteDone * pclose "close python help after selection
 let g:pymode_rope = 1
-let g:pymode_syntax = 1
+let g:pymode_python = 'python3'
 let g:pymode_rope_goto_definition_cmd = 'e'
+let g:pymode_rope_lookup_project = 0
+let g:pymode_rope_completion = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_autoimport = 1
+let g:pymode_virtualenv = 1
 
 "utilsnips plugin
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-e>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
 
 "vim-go plugin
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -162,7 +161,9 @@ au Filetype go nnoremap <leader>r :GoRun %<CR>
 
 
 "vimwiki plugin
+let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '.md'}]
 "let g:vimwiki_folding = 'custom'
 
 "autopairs plugin
 "let g:AutoPairsFlyMode = 1
+"
