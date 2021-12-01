@@ -184,5 +184,4 @@ let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '
 "ale plugin
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_fix_on_save = 1
-=======
-"
+
