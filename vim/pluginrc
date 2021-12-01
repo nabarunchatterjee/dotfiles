@@ -13,6 +13,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'itchyny/lightline.vim'
 Plugin 'mengelbrecht/lightline-bufferline'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'powerline/fonts'
 
 "Productivity related
 Plugin 'scrooloose/nerdcommenter'
@@ -25,13 +26,20 @@ Plugin 'vimwiki/vimwiki'
 
 "Coding related
 Plugin 'airblade/vim-gitgutter'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
 Plugin 'klen/python-mode'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'
+Plugin 'mlaursen/vim-react-snippets'
 Plugin 'honza/vim-snippets'
+Plugin 'hashivim/vim-terraform'
+Plugin 'mattn/emmet-vim'
+Plugin 'deoplete-plugins/deoplete-go'
+Plugin 'pangloss/vim-javascript'
+Plugin 'dense-analysis/ale'
+Plugin 'prettier/vim-prettier'
+Plugin 'ycm-core/YouCompleteMe'
 
 call vundle#end()            " required
 
@@ -155,14 +163,36 @@ let g:UltiSnipsJumpForwardTrigger="<c-e>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "vim-go plugin
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck', 'golangci-lint']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"let g:go_metalinter_enabled = ['deadcode', 'errcheck', 'gosimple', 'govet', 'staticcheck', 'typecheck', 'unused', 'varcheck']
+"let g:go_metalinter_autosave_enabled =  ['deadcode', 'errcheck', 'gosimple', 'govet', 'staticcheck', 'typecheck', 'unused', 'varcheck']
 let g:go_term_mode = "vsplit"
+let g:go_fmt_command = "goimports"
+"let g:go_metalinter_autosave = 1
+"let g:go_metalinter_command = "golangci-lint run  -E asciicheck -E bodyclose -E depguard -E dogsled -E dupl -E exhaustive -E exportloopref -E funlen -E gochecknoglobals -E gochecknoinits -E gocognit -E goconst -E gocritic -E gocyclo -E godot -E godox -E goerr113 -E gofmt -E goimports -E golint -E gomnd -E gomodguard -E goprintffuncname -E gosec -E interfacer -E lll -E maligned -E misspell -E nakedret -E nestif -E noctx -E nolintlint -E prealloc -E rowserrcheck -E scopelint -E stylecheck -E testpackage -E unconvert -E unparam -E whitespace -E wsl"
+let g:go_list_type = 'quickfix'
 au Filetype go nnoremap <leader>r :GoRun %<CR>
+au Filetype go nnoremap <leader>t :GoTest<CR>
 
 
 "vimwiki plugin
+let g:vimwiki_list = [{'path': '~/notes/', 'path_html': '~/notes_html/', 'ext': '.md', 'syntax': 'markdown'},{'path': '~/common_notes/', 'path_html': '~/common_notes_html/', 'ext': '.md', 'syntax': 'markdown'}]
 "let g:vimwiki_folding = 'custom'
 
 "autopairs plugin
 "let g:AutoPairsFlyMode = 1
+
+"gitgutter plugin
+
+"vim-terraform plugin
+let g:terraform_align=1
+"let g:terraform_fold_sections=1
+let g:terraform_fmt_on_save=1
+
+"javabomplete plugin
+autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+
+"ale plugin
+let b:ale_fixers = ['prettier', 'eslint']
+let g:ale_fix_on_save = 1
