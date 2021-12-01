@@ -21,25 +21,22 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mattn/calendar-vim'
 Plugin 'vimwiki/vimwiki'
 
 "Coding related
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'klen/python-mode'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'
 Plugin 'mlaursen/vim-react-snippets'
 Plugin 'honza/vim-snippets'
-Plugin 'hashivim/vim-terraform'
 Plugin 'mattn/emmet-vim'
-Plugin 'deoplete-plugins/deoplete-go'
 Plugin 'pangloss/vim-javascript'
 Plugin 'dense-analysis/ale'
 Plugin 'prettier/vim-prettier'
-Plugin 'ycm-core/YouCompleteMe'
 
 call vundle#end()            " required
 
@@ -144,23 +141,22 @@ function! CtrlPStatusFunc_2(str)
 endfunction
 
 
-"syntastic plugin
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-
 "python-mode plugin
-au CompleteDone * pclose "close python help after selection
-let pymode_lint = 1
-let g:pymode_lint_checkers = ['pyflakes', 'pep8', 'pylint', 'pep257']
+"au CompleteDone * pclose "close python help after selection
 let g:pymode_rope = 1
-let g:pymode_syntax = 1
+let g:pymode_python = 'python3'
 let g:pymode_rope_goto_definition_cmd = 'e'
+let g:pymode_rope_lookup_project = 0
+let g:pymode_rope_completion = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_autoimport = 1
+let g:pymode_virtualenv = 1
 
 "utilsnips plugin
 let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-e>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
 
 "vim-go plugin
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck', 'golangci-lint']
@@ -177,22 +173,16 @@ au Filetype go nnoremap <leader>t :GoTest<CR>
 
 
 "vimwiki plugin
-let g:vimwiki_list = [{'path': '~/notes/', 'path_html': '~/notes_html/', 'ext': '.md', 'syntax': 'markdown'},{'path': '~/common_notes/', 'path_html': '~/common_notes_html/', 'ext': '.md', 'syntax': 'markdown'}]
+let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '.md'}]
 "let g:vimwiki_folding = 'custom'
 
 "autopairs plugin
 "let g:AutoPairsFlyMode = 1
 
-"gitgutter plugin
 
-"vim-terraform plugin
-let g:terraform_align=1
-"let g:terraform_fold_sections=1
-let g:terraform_fmt_on_save=1
-
-"javabomplete plugin
-autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 
 "ale plugin
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_fix_on_save = 1
+=======
+"

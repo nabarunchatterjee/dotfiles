@@ -20,11 +20,10 @@ set smarttab
 
 "set foldcolumn=3
 hi VertSplit ctermbg=NONE guibg=NONE 
+set autoindent
 set tags=tags
 
-
-
-let mapleader = "," "
+let mapleader = "," 
 
 "Auto Commands
 
@@ -40,6 +39,7 @@ augroup END
 nnoremap < :bprevious<CR> 
 nnoremap > :bnext<CR>
 
+"
 "Filetype specific settings
 autocmd FileType python,sh,markdown,vim  setlocal colorcolumn=80
 autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=green ctermbg=NONE
