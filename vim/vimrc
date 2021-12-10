@@ -44,6 +44,7 @@ nnoremap > :bnext<CR>
 autocmd FileType python,sh,markdown,vim  setlocal colorcolumn=80
 autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=green ctermbg=NONE
 au BufRead,BufNewFile *.md setlocal textwidth=79
+set omnifunc=syntaxcomplete#Complete
 
 
 "Others

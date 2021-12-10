@@ -37,6 +37,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'dense-analysis/ale'
 Plugin 'prettier/vim-prettier'
+Plugin 'chrisbra/Colorizer'
 
 call vundle#end()            " required
 
