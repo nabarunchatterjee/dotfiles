@@ -19,11 +19,11 @@ set smarttab
 
 
 "set foldcolumn=3
-hi VertSplit ctermbg=NONE guibg=NONE 
+hi VertSplit ctermbg=NONE guibg=NONE
 set autoindent
 set tags=tags
 
-let mapleader = "," 
+let mapleader = ","
 
 "Auto Commands
 
@@ -32,16 +32,19 @@ augroup qf
     autocmd!
     autocmd FileType qf set nobuflisted
 augroup END
+autocmd FileType qf nmap <buffer> <cr> <cr>:lcl<cr>
 
 " General key remap
 
 "Use < > keys to navigate buffers
-nnoremap < :bprevious<CR> 
+nnoremap < :bprevious<CR>
 nnoremap > :bnext<CR>
 
 "
 "Filetype specific settings
 autocmd FileType python,sh,markdown,vim  setlocal colorcolumn=80
+autocmd FileType go setlocal tabstop=4 shiftwidth=4 colorcolumn=120
+autocmd FileType javascript,javascriptreact  setlocal shiftwidth=2 tabstop=2 colorcolumn=100
 autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=green ctermbg=NONE
 au BufRead,BufNewFile *.md setlocal textwidth=79
 set omnifunc=syntaxcomplete#Complete
@@ -49,6 +52,10 @@ set omnifunc=syntaxcomplete#Complete
 
 "Others
 colorscheme solarized
+set background=dark
 syntax on
 hi Terminal ctermbg=black ctermfg=blue guibg=lightgrey guifg=blue
 hi SignColumn ctermbg=black
+
+hi clear SpellBad
+hi SpellBad cterm=underline

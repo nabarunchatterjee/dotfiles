@@ -37,7 +37,9 @@ Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'dense-analysis/ale'
 Plugin 'prettier/vim-prettier'
-Plugin 'chrisbra/Colorizer'
+Plugin 'hashivim/vim-terraform'
+Plugin 'preservim/tagbar'
+Plugin 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call vundle#end()            " required
 
@@ -53,30 +55,31 @@ map <esc>t :NERDTreeToggle<CR>
 set laststatus=2
 set noshowmode
 let g:lightline = {
-    \   'colorscheme': 'solarized',
-    \   'active': {
-    \       'left': [ [ 'mode', 'paste' ],
-    \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \      },
-    \   'tabline': {
-    \      'left': [ ['bufferline']],
-    \       },
-    \   'component_expand': {
-    \       'bufferline': 'lightline#bufferline#buffers',
-    \       },
-    \   'component_type': {
-    \       'bufferline': 'tabsel',
-    \       },
-    \   'component_function': {
-    \       'gitbranch': 'fugitive#head',
-    \       'filetype': 'MyFiletype',
-    \       'fileformat': 'MyFileformat',
-    \       'ctrlpmark': 'CtrlPMark'
-    \       },
-    \   'separator': { 'left': '', 'right': '' },
-    \   'subseparator': { 'left': '', 'right': '' },
-    \   } 
+            \   'colorscheme': 'solarized',
+            \   'active': {
+            \       'left': [ [ 'mode', 'paste' ],
+            \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \      },
+            \   'tabline': {
+            \      'left': [ ['bufferline']],
+            \       },
+            \   'component_expand': {
+            \       'bufferline': 'lightline#bufferline#buffers',
+            \       },
+            \   'component_type': {
+            \       'bufferline': 'tabsel',
+            \       },
+            \   'component_function': {
+            \       'gitbranch': 'FugitiveHead',
+            \       'filetype': 'MyFiletype',
+            \       'fileformat': 'MyFileformat',
+            \       'ctrlpmark': 'CtrlPMark'
+            \       },
+            \   'separator': { 'left': '', 'right': '' },
+            \   'subseparator': { 'left': '', 'right': '' },
+            \   }
 
+let g:lightline#bufferline#show_number = 1
 function! MyFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : '') : ''
 endfunction
@@ -110,6 +113,7 @@ let g:lightline#bufferline#filename_modifier = ':t'
 "nerdcommenter plugin
 map ,cc \cs
 map ,cu \cu
+let g:NERDCustomDelimiters = { 'javascriptreact': { 'left': '//  ', 'leftAlt': '/*', 'rightAlt': '*/' } }
 
 "nerdtree plugin
 map <esc>t :NERDTreeToggle<CR>
@@ -160,21 +164,21 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 autocmd FileType javascript UltiSnipsAddFiletypes javascript-node
 
 "vim-go plugin
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck', 'golangci-lint']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck', 'golangci-lint']
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 "let g:go_metalinter_enabled = ['deadcode', 'errcheck', 'gosimple', 'govet', 'staticcheck', 'typecheck', 'unused', 'varcheck']
-"let g:go_metalinter_autosave_enabled =  ['deadcode', 'errcheck', 'gosimple', 'govet', 'staticcheck', 'typecheck', 'unused', 'varcheck']
-let g:go_term_mode = "vsplit"
+let g:go_metalinter_autosave_enabled =  ['errcheck', 'gosimple', 'govet', 'staticcheck', 'typecheck', 'unused']
+"let g:go_term_mode = "vsplit"
 let g:go_fmt_command = "goimports"
-"let g:go_metalinter_autosave = 1
-"let g:go_metalinter_command = "golangci-lint run  -E asciicheck -E bodyclose -E depguard -E dogsled -E dupl -E exhaustive -E exportloopref -E funlen -E gochecknoglobals -E gochecknoinits -E gocognit -E goconst -E gocritic -E gocyclo -E godot -E godox -E goerr113 -E gofmt -E goimports -E golint -E gomnd -E gomodguard -E goprintffuncname -E gosec -E interfacer -E lll -E maligned -E misspell -E nakedret -E nestif -E noctx -E nolintlint -E prealloc -E rowserrcheck -E scopelint -E stylecheck -E testpackage -E unconvert -E unparam -E whitespace -E wsl"
-let g:go_list_type = 'quickfix'
-au Filetype go nnoremap <leader>r :GoRun %<CR>
-au Filetype go nnoremap <leader>t :GoTest<CR>
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_command = "golangci-lint"
+"let g:go_list_type = 'quickfix'
+"au Filetype go nnoremap <leader>r :GoRun %<CR>
+"au Filetype go nnoremap <leader>t :GoTest<CR>
 
 
 "vimwiki plugin
-let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '.md'},{'path': '~/notes/2022', 'syntax': 'markdown', 'ext': '.md'}]
 "let g:vimwiki_folding = 'custom'
 
 "autopairs plugin
@@ -183,6 +187,16 @@ let g:vimwiki_list = [{'path': '~/notes/freedom', 'syntax': 'markdown', 'ext': '
 
 
 "ale plugin
-let b:ale_fixers = ['prettier', 'eslint']
-let g:ale_fix_on_save = 1
+let g:ale_fixers = {'javascriptreact': ['eslint', 'prettier']}
+let g:ale_lint_on_enter = 1
+let g:ale_fix_on_save = 0
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 1
+nnoremap ,f :!eslint --fix %<CR><CR>
 
+"Omnisharp plugin
+let g:OmniSharp_server_stdio = 0
+let g:OmniSharp_server_use_mono = 1
+
+"vim-terraform
+let g:terraform_fmt_on_save=1

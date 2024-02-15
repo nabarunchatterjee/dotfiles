@@ -1,24 +1,57 @@
 #!/usr/local/bin/zsh
 
-SESSION_NAME="code"
-REACT_WINDOW="react"
-CSS_WINDOW="css"
-NOTES_WINDOW="notes"
+SESSION_NAME="myMemoryStore"
 
 # Start New session with session name
 tmux new-session -d -s ${SESSION_NAME}
 
 
 # React window
-tmux rename-window -t ${SESSION_NAME}:1 'react'
-tmux send-keys -t ${REACT_WINDOW} 'zsh' C-m 'cd ~/src/reactjs/crwn-clothing/src' C-m 'vi' C-m
+tmux rename-window -t ${SESSION_NAME}:1 'frontend'
+tmux send-keys -t  'frontend'.0 'zsh' C-m 'cd ~/src/mymemorystore/frontend/src' C-m 'nvim' C-m
 
 tmux split-window -t ${SESSION_NAME}
-tmux send-keys -t 'react'.1 'cd ~/src/reactjs/crwn-clothing/' C-m 'yarn start' C-m
+tmux send-keys -t 'frontend'.1 'cd ~/src/mymemorystore/frontend' C-m 'npm start' C-m
 
-tmux new-window -n ${CSS_WINDOW}
-tmux send-keys -t ${CSS_WINDOW}.0 'zsh' C-m 'cd ~/src/css/course/' C-m 'vi' C-m
+#tmux split-window -h -t ${SESSION_NAME}
+#tmux send-keys -t 'frontend'.2 'cd ~/src/mymemorystore/prelaunch' C-m 
 
-tmux new-window -n ${NOTES_WINDOW}
-tmux send-keys -t ${NOTES_WINDOW}.0 'zsh' C-m 'cd ~/notes/freedom' C-m  'vi' C-m
+#tmux resize-pane -D 20
 
+#tmux new-window
+#tmux rename-window -t ${SESSION_NAME}:2 'amygdala'
+#tmux send-keys -t  'amygdala'.0 'zsh' C-m 'cd ~/src/mymemorystore/amygdala' C-m 'vi' C-m
+
+#tmux split-window -t ${SESSION_NAME}
+#tmux send-keys -t 'backend'.1 'cd ~/src/mymemorystore/amygdala' C-m 
+
+#tmux resize-pane -D 20
+
+#tmux new-window
+#tmux rename-window -t ${SESSION_NAME}:3 'imagery'
+#tmux send-keys -t  'imagery'.0 'zsh' C-m 'cd ~/src/mymemorystore/imagery' C-m 'vi' C-m
+
+#tmux split-window -t ${SESSION_NAME}
+#tmux send-keys -t 'imagery'.1 'cd ~/src/mymemorystore/imagery' C-m 
+
+#tmux resize-pane -U 20
+
+#tmux new-window
+#tmux rename-window -t ${SESSION_NAME}:4 'foundation'
+#tmux send-keys -t  'foundation'.0 'zsh' C-m 'cd ~/src/mymemorystore/foundation' C-m 'vi' C-m
+
+#tmux split-window -t ${SESSION_NAME}
+#tmux send-keys -t 'foundation'.1 'cd ~/src/mymemorystore/foundation' C-m 
+
+#tmux resize-pane -D 20
+
+#tmux new-window
+#tmux rename-window -t ${SESSION_NAME}:5 'notes'
+#tmux send-keys -t  'notes'.0 'zsh' C-m 'cd ~/notes/2022' C-m 'vi' C-m
+
+#tmux split-window -t ${SESSION_NAME}
+#tmux send-keys -t 'notes'.1 'cd ~/notes/2022' C-m 'python -m SimpleHTTPServer'
+
+tmux resize-pane -D 20
+
+tmux attach -t ${SESSION_NAME}
