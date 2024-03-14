@@ -1,3 +1,9 @@
 # function to handle apigateway request and return response
 snippet grr "api gateway request function"
 	func $0(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {}
+
+# if err = function_call; err != nil
+snippet ief "if error = function call"
+	if err = $0($1); err != nil {
+	    $2
+	} 
