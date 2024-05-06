@@ -43,8 +43,8 @@ vim.g.maplocalleader = ' '
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-require 'plugins'
 require 'options'
+require 'plugins'
 require 'keymaps'
 require 'commands'
 --
@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'org', 'norg', 'markdown' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -123,7 +123,28 @@ require('nvim-treesitter.configs').setup {
       },
     },
   },
+  context_commentstring = {
+    config = {
+      javascript = {
+        __default = '// %s',
+        jsx_element = '{/* %s */}',
+        jsx_fragment = '{/* %s */}',
+        jsx_attribute = '// %s',
+        comment = '// %s',
+      },
+      typescript = {
+        __default = '// %s',
+        __multiline = '/* %s */',
+        tsx_element = '{/* %s */}',
+        tsx_fragment = '{/* %s */}',
+      },
+    },
+  }
 }
+
+require('Comment').setup({
+  pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+})
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -177,15 +198,17 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
-  -- tsserver = {},
+  tsserver = {},
 
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+      diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
@@ -354,5 +377,6 @@ require("ibl").setup({
   indent = { char = '┊' },
   scope = { enabled = false },
 })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

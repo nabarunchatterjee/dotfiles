@@ -1,4 +1,4 @@
-vim.cmd [[colorscheme solarized-flat]]
+vim.cmd [[colorscheme solarized]]
 vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 vim.cmd [[autocmd BufWritePre *.go lua vim.lsp.buf.code_action({ source = { organizeImports = true } })]]
 vim.cmd [[autocmd FileType python,sh,markdown,vim  setlocal colorcolumn=80]]

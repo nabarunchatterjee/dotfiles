@@ -44,3 +44,6 @@ vim.o.termguicolors = true
 vim.o.cursorline = true
 
 vim.o.background = 'dark'
+
+vim.o.conceallevel = 3
+vim.o.concealcursor = 'nc'

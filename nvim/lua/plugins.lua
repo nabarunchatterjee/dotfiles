@@ -24,11 +24,12 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
   'jose-elias-alvarez/null-ls.nvim',
   'MunifTanjim/prettier.nvim',
+  'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   'vimwiki/vimwiki',
-  'tools-life/taskwiki',
+  -- 'tools-life/taskwiki',
   { 'mfussenegger/nvim-dap', dependencies = { { "rcarriga/nvim-dap-ui" }, } },
   { 'leoluz/nvim-dap-go',    opts = {} },
   {
@@ -109,7 +110,6 @@ require('lazy').setup({
       return vim.fn.executable 'make' == 1
     end,
   },
-
 
   { import = 'custom.plugins' },
 }, {})

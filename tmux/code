@@ -1,0 +1,102 @@
+#!/usr/local/bin/zsh -x
+
+SESSION_NAME="code"
+BASE_PATH="~/src/mymemorystore/"
+TMUX="/usr/local/bin/tmux"
+OPTSTRING=":p:"
+
+function create_session {
+  # Check if session exists
+  ${TMUX} has-session -t ${SESSION_NAME}
+  if [ $? != 0 ]
+  then
+    echo "Session ${SESSION_NAME} does not exist; creating"
+    # Start New session with session name
+    ${TMUX} new-session -d -s ${SESSION_NAME}
+  else
+    echo "Session ${SESSION_NAME} already exists; skipping"
+  fi
+}
+
+function create_window { 
+  wname=$1
+  # Check if window exists
+  ${TMUX} has-session -t ${SESSION_NAME}:${wname}
+  if [ $? != 0 ]
+  then
+    echo "Window ${wname} does not exist in session ${SESSION_NAME}; creating"
+    # Start New window in session_name with name wname
+    ${TMUX} new-window -t ${SESSION_NAME} -n ${wname}
+    return 1;
+  else
+    echo "Window ${wname} exist in  session ${SESSION_NAME}; skipping"
+    return 0;
+  fi
+}
+
+function backend {
+    project=$1
+    echo "Preparing window for ${project} - START"
+    path="${BASE_PATH}${project}"
+    create_window ${project}
+    if [ $? != 0 ]
+    then
+      ${TMUX} send-keys -t  ${project}.0 "zsh" C-m "cd ${path}" C-m "nvim" C-m
+      ${TMUX} split-window -t ${SESSION_NAME}
+      ${TMUX} send-keys -t ${project}.1 "cd ${path}" C-m 
+      ${TMUX} resize-pane -D 20 
+    fi
+    echo "Preparing window for ${project} - END"
+}
+
+
+function frontend {
+  project=$1
+  path="${BASE_PATH}${project}"
+  create_window ${project}
+  if [ $? != 0 ]
+  then
+    ${TMUX} send-keys -t  ${project}.0 "zsh" C-m "cd ${path}" C-m "nvim" C-m
+    ${TMUX} split-window -t ${SESSION_NAME}
+    ${TMUX} send-keys -t ${project}.1 "cd ${path}" C-m 'npm start' C-m
+    ${TMUX} split-window -h -t ${SESSION_NAME}
+    ${TMUX} send-keys -t  ${project}.2 "zsh" C-m "cd ${path}" C-m
+    ${TMUX} resize-pane -D 20
+  fi
+}
+
+function setup_windows {
+    project=$1
+    echo "Setup windows for ${project} - START"
+    case ${project} in 
+      amygdala)
+        backend amygdala
+        ;;
+      frontend)
+        frontend "frontend"
+        ;;
+      admin)
+        frontend "admin"
+        ;;
+      ?)
+        echo "Invalid option: -${OPTARG}."
+        exit 1
+        ;;
+    esac
+}
+
+
+create_session
+while getopts ${OPTSTRING} opt; do
+  case ${opt} in
+    p)
+    echo "Optarg is ${OPTARG}"
+      setup_windows "${OPTARG}"
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+${TMUX} attach -t ${SESSION_NAME}
