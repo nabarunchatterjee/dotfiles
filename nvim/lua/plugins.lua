@@ -25,6 +25,7 @@ require('lazy').setup({
   'jose-elias-alvarez/null-ls.nvim',
   'MunifTanjim/prettier.nvim',
   'JoosepAlviste/nvim-ts-context-commentstring',
+  'jose-elias-alvarez/typescript.nvim',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',

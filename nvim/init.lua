@@ -166,6 +166,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
+  -- nmap('<leader>ga', vim.null_ls.code_action, 'Null ls code actions')
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
@@ -295,6 +296,10 @@ if (not status) then return end
 null_ls.setup {
   sources = {
     null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.diagnostics.eslint,
+    -- null_ls.builtins.code_actions.eslint,
+    null_ls.builtins.code_actions.eslint_d,
+    require("typescript.extensions.null-ls.code-actions"),
   }
 }
 
@@ -372,10 +377,51 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 pcall(require('telescope').load_extension, 'luasnip')
+pcall(require('telescope').load_extension, 'null_ls')
 
 require("ibl").setup({
   indent = { char = '┊' },
   scope = { enabled = false },
+})
+
+require("typescript").setup({
+  disable_commands = false, -- prevent the plugin from creating Vim commands
+  debug = false,            -- enable debug logging for commands
+  go_to_source_definition = {
+    fallback = true,        -- fall back to standard LSP definition on failure
+  },
+  -- server = {
+  --   on_attach = function(client, bufnr)
+  --     -- your other on_attach stuff here if you have any
+  --     -- ...
+  --     vim.lsp.inlay_hint.enable(bufnr, true)
+  --   end,
+  --   settings = {
+  --     -- specify some or all of the following settings if you want to adjust the default behavior
+  --     javascript = {
+  --       inlayHints = {
+  --         includeInlayEnumMemberValueHints = true,
+  --         includeInlayFunctionLikeReturnTypeHints = true,
+  --         includeInlayFunctionParameterTypeHints = true,
+  --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+  --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+  --         includeInlayPropertyDeclarationTypeHints = true,
+  --         includeInlayVariableTypeHints = true,
+  --       },
+  --     },
+  --     typescript = {
+  --       inlayHints = {
+  --         includeInlayEnumMemberValueHints = true,
+  --         includeInlayFunctionLikeReturnTypeHints = true,
+  --         includeInlayFunctionParameterTypeHints = true,
+  --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+  --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+  --         includeInlayPropertyDeclarationTypeHints = true,
+  --         includeInlayVariableTypeHints = true,
+  --       },
+  --     },
+  --   },
+  -- },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
