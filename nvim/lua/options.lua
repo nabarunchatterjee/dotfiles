@@ -47,3 +47,4 @@ vim.o.background = 'dark'
 
 vim.o.conceallevel = 3
 vim.o.concealcursor = 'nc'
+-- vim.o.autochdir = true

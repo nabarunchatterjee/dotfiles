@@ -58,7 +58,7 @@ function frontend {
   then
     ${TMUX} send-keys -t  ${project}.0 "zsh" C-m "cd ${path}" C-m "nvim" C-m
     ${TMUX} split-window -t ${SESSION_NAME}
-    ${TMUX} send-keys -t ${project}.1 "cd ${path}" C-m 'npm start' C-m
+    ${TMUX} send-keys -t ${project}.1 "cd ${path}" C-m 'REACT_APP_AUTH_URL=127.0.0.1:3001 npm start' C-m
     ${TMUX} split-window -h -t ${SESSION_NAME}
     ${TMUX} send-keys -t  ${project}.2 "zsh" C-m "cd ${path}" C-m
     ${TMUX} resize-pane -D 20

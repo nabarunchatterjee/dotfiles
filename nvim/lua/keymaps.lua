@@ -49,6 +49,11 @@ vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
 
+-- gomodifytgs
+vim.keymap.set("n", "<leader>Gt",
+  "<cmd>lua require('gomodifytags').GoAddTags('json', {transformation = 'snakecase', skip_unexported = false})<CR>",
+  { desc = "Add JSON Tags" })
+
 -- vim.keymap.set({ "i", "s" }, "<C-E>", function()
 --   if ls.choice_active() then
 --     ls.change_choice(1)

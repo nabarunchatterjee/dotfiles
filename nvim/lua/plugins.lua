@@ -25,42 +25,33 @@ require('lazy').setup({
   'jose-elias-alvarez/null-ls.nvim',
   'MunifTanjim/prettier.nvim',
   'JoosepAlviste/nvim-ts-context-commentstring',
-  'jose-elias-alvarez/typescript.nvim',
+  -- 'jose-elias-alvarez/typescript.nvim',
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   'vimwiki/vimwiki',
   -- 'tools-life/taskwiki',
-  { 'mfussenegger/nvim-dap', dependencies = { { "rcarriga/nvim-dap-ui" }, } },
-  { 'leoluz/nvim-dap-go',    opts = {} },
+  { 'numToStr/Comment.nvim',  opts = {} },
+  { 'windwp/nvim-autopairs',  opts = {} },
+  { 'kylechui/nvim-surround', opts = {} },
   {
-    "rcarriga/nvim-dap-ui",
-    requires = { "mfussenegger/nvim-dap" },
-    keys = {
-      { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
-      { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
+    'nvim-tree/nvim-tree.lua',
+    opts = {
+      sync_root_with_cwd = true,
+      respect_buf_cwd = true,
+      update_focused_file = {
+        enable = true,
+        update_root = true,
+      },
     },
-    opts = {},
-    config = function(_, opts)
-      local dap = require("dap")
-      local dapui = require("dapui")
-      dapui.setup(opts)
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({})
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close({})
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close({})
-      end
-    end,
+    actions = {
+      change_dir = {
+        enable = true,
+        global = true,
+      },
+    },
   },
-  { 'numToStr/Comment.nvim',        opts = {} },
-  { 'windwp/nvim-autopairs',        opts = {} },
-  { 'kylechui/nvim-surround',       opts = {} },
-  { 'nvim-tree/nvim-tree.lua',      opts = {} },
-  { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, },
+  { "iamcco/markdown-preview.nvim",     run = function() vim.fn["mkdp#util#install"]() end, },
   -- Bufferline
   {
     'akinsho/bufferline.nvim',
@@ -75,9 +66,24 @@ require('lazy').setup({
   { "benfowler/telescope-luasnip.nvim", module = "telescope._extensions.luasnip" },
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
-
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
+  },
+  -- Autocompletion Engine
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
+      "L3MON4D3/LuaSnip",         -- Snippet engine (required for auto-imports)
+      "saadparwaiz1/cmp_luasnip", -- Snippet source for nvim-cmp
+    },
+  },
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',             opts = {} },
+  { 'folke/which-key.nvim',        opts = {} },
 
   { 'ishan9299/nvim-solarized-lua' },
 
@@ -93,11 +99,15 @@ require('lazy').setup({
     },
   },
 
+  -- nvim in firefox
+  { 'glacambre/firenvim',            build = ":call firenvim#install(0)" },
+
+
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x',                   dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -111,6 +121,7 @@ require('lazy').setup({
       return vim.fn.executable 'make' == 1
     end,
   },
+  { 'airblade/vim-rooter' },
 
   { import = 'custom.plugins' },
 }, {})

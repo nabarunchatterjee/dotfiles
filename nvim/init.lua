@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'org', 'norg', 'markdown' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'markdown' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -200,9 +200,19 @@ end
 local servers = {
   -- clangd = {},
   gopls = {},
-  -- pyright = {},
+  pyright = {
+    settings = {
+      python = {
+        analysis = {
+          autoImportCompletions = true,
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+        },
+      },
+    },
+  },
+  -- ruff = {},
   -- rust_analyzer = {},
-  tsserver = {},
 
   lua_ls = {
     Lua = {
@@ -296,10 +306,9 @@ if (not status) then return end
 null_ls.setup {
   sources = {
     null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.diagnostics.eslint,
+    -- null_ls.builtins.diagnostics.eslint,
     -- null_ls.builtins.code_actions.eslint,
     null_ls.builtins.code_actions.eslint_d,
-    require("typescript.extensions.null-ls.code-actions"),
   }
 }
 
@@ -320,36 +329,7 @@ prettier.setup {
   }
 }
 
-require('dap-go').setup {
-  -- Additional dap configurations can be added.
-  -- dap_configurations accepts a list of tables where each entry
-  -- represents a dap configuration. For more details do:
-  -- :help dap-configuration
-  dap_configurations = {
-    {
-      -- Must be "go" or it will be ignored by the plugin
-      type = "go",
-      name = "Attach remote",
-      mode = "remote",
-      request = "attach",
-    },
-  },
-  -- delve configurations
-  delve = {
-    -- the path to the executable dlv which will be used for debugging.
-    -- by default, this is the "dlv" executable on your PATH.
-    path = "dlv",
-    -- time to wait for delve to initialize the debug session.
-    -- default to 20 seconds
-    initialize_timeout_sec = 20,
-    -- a string that defines the port to start delve debugger.
-    -- default to string "${port}" which instructs nvim-dap
-    -- to start the process in a random available port
-    port = "${port}",
-    -- additional args to pass to dlv
-    args = {}
-  },
-}
+
 
 prettier.setup({
   cli_options = {
@@ -384,45 +364,6 @@ require("ibl").setup({
   scope = { enabled = false },
 })
 
-require("typescript").setup({
-  disable_commands = false, -- prevent the plugin from creating Vim commands
-  debug = false,            -- enable debug logging for commands
-  go_to_source_definition = {
-    fallback = true,        -- fall back to standard LSP definition on failure
-  },
-  -- server = {
-  --   on_attach = function(client, bufnr)
-  --     -- your other on_attach stuff here if you have any
-  --     -- ...
-  --     vim.lsp.inlay_hint.enable(bufnr, true)
-  --   end,
-  --   settings = {
-  --     -- specify some or all of the following settings if you want to adjust the default behavior
-  --     javascript = {
-  --       inlayHints = {
-  --         includeInlayEnumMemberValueHints = true,
-  --         includeInlayFunctionLikeReturnTypeHints = true,
-  --         includeInlayFunctionParameterTypeHints = true,
-  --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-  --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-  --         includeInlayPropertyDeclarationTypeHints = true,
-  --         includeInlayVariableTypeHints = true,
-  --       },
-  --     },
-  --     typescript = {
-  --       inlayHints = {
-  --         includeInlayEnumMemberValueHints = true,
-  --         includeInlayFunctionLikeReturnTypeHints = true,
-  --         includeInlayFunctionParameterTypeHints = true,
-  --         includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-  --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-  --         includeInlayPropertyDeclarationTypeHints = true,
-  --         includeInlayVariableTypeHints = true,
-  --       },
-  --     },
-  --   },
-  -- },
-})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

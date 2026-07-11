@@ -16,3 +16,29 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "load view (folds), when opening file",
   command = "silent! loadview"
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.py",
+  callback = function()
+    -- Format the current buffer using the active LSP (e.g., Ruff)
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   callback = function(args)
+--     local client = vim.lsp.get_client_by_id(args.data.client_id)
+--     if not client then return end
+--
+--     -- Mute Ruff so it never collides with Pyright's auto-import menus
+--     if client.name == "ruff" then
+--       client.server_capabilities.completionProvider = nil
+--       client.server_capabilities.hoverProvider = nil
+--     end
+--
+--     -- Explicitly tell Pyright to announce its formatting capability fallback
+--     if client.name == "pyright" then
+--       client.server_capabilities.documentFormattingProvider = false
+--     end
+--   end,
+-- })

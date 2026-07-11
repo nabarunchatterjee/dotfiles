@@ -1,3 +1,8 @@
 # import from material ui material
 snippet mimp "import from @mui/material" b
 	import $1 from '@mui/material/${2:$1}';
+
+# eslint disable no console 
+snippet nocons "eslint disable no console" b
+	// eslint-disable-next-line no-console
+	console.log($1);
